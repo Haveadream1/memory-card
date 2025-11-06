@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" defer crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" defer crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet" defer crossorigin>
+    <link rel="stylesheet" href="styles.css">
     <title>Memory card</title>
   </head>
   <body>
@@ -13,25 +17,33 @@
     <header>
       <h1>Memory card</h1>
       <div class="score-container">
-        <p>Score: 10</p>
-        <p>High score: 20</p>
+        <p>Score: <span class="bold">10</span></p>
+        <p>High score: <span class="bold">20</span></p>
       </div>
     </header>
 
-    <!-- or use a list element ? -->
-    <main role="main">
-      <div class="card">
-        <img src="" alt="" loading="lazy">
-      </div>
+    <main role="main" class="cards-container">
+      <button class="card">
+        <p>Test</p>
+      </button>
+      <button class="card">
+        <p>Test</p>
+      </button>   
+      <button class="card">
+        <p>Test</p>
+      </button>
+      <button class="card">
+        <p>Test</p>
+      </button>
     </main>
 
-    <section class="end-game-alert" aria-labelledby="alert-heading">
+    <!-- <section class="end-game-alert" aria-labelledby="alert-heading">
       <h2 id="alert-heading">Congratulations!</h2>
       <div>
         <p>Score: 10</p>
         <p>High score: 20</p>
       </div>
       <button type="button" aria-label="Play again">Play again</button>
-    </section>
+    </section> -->
   </body>
 </html>
