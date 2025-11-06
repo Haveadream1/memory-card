@@ -9,6 +9,7 @@
 :root {
     /* Color */
     --blue: #799EFF;
+    --faded-black: #12131473;
 
     /* Spacing */
     --space-xs: 0.5rem;
@@ -23,7 +24,6 @@ body {
     display: grid;
     grid-template-rows: auto 1fr;
     gap: var(--space-lg);
-    padding: var(--space-lg);
     background-color: #d7d7d7;
 
     font-family: "Ubuntu", sans-serif;
@@ -33,7 +33,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: var(--space-sm);
+
     padding: var(--space-lg);
     background-color: white;
 }
@@ -56,15 +56,67 @@ h1 {
     width: 100%;
     height: auto;
     border: none;
-    border-radius: var(--space-md);
 
     background-color: white;
 }
 
+.alert-container {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    visibility: hidden;
+    background-color: var(--faded-black);
+}
 .end-game-alert {
-    background-color: red;
+    position: absolute; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 350px;
+    height: 325px;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-lg);
+    justify-content: space-between;
+
+    background-color: white;  
+}
+#alert-heading {
+    text-align: center;
+}
+.end-game-score-container {
+    display: flex;
+    justify-content: space-between;
+}
+#play-again-button {
+    padding: var(--space-xs) var(--space-xs);
+    border: none;
+    background-color: var(--blue);
+    color: white;
+}
+
+header,
+main {
+    margin: var(--space-lg);
+}
+
+header,
+.card,
+.end-game-alert {
+    border-radius: var(--space-md);
+}
+
+button {
+    font-family: "Ubuntu", sans-serif;
+}
+button:hover {
+    border: 2px solid var(--blue);
 }
 
 .bold {
     font-size: larger;
+}
+.end-game-score {
+    color: var(--blue);
 }
