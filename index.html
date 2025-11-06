@@ -2,12 +2,36 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>memory-card</title>
+    <title>Memory card</title>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+
+    <!-- <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script> -->
+
+    <header>
+      <h1>Memory card</h1>
+      <div class="score-container">
+        <p>Score: 10</p>
+        <p>High score: 20</p>
+      </div>
+    </header>
+
+    <!-- or use a list element ? -->
+    <main role="main">
+      <div class="card">
+        <img src="" alt="" loading="lazy">
+      </div>
+    </main>
+
+    <section class="end-game-alert" aria-labelledby="alert-heading">
+      <h2 id="alert-heading">Congratulations!</h2>
+      <div>
+        <p>Score: 10</p>
+        <p>High score: 20</p>
+      </div>
+      <button type="button" aria-label="Play again">Play again</button>
+    </section>
   </body>
 </html>
