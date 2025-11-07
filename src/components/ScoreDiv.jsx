@@ -1,12 +1,11 @@
 export default function ScoreDiv({
     divClassName,
-    scoreClassName,
-    highScoreClassName
+    spanClassName,
 }) {
     return (
         <div className={divClassName}>
-            <p>Score: <span className={scoreClassName}>10</span></p>
-            <p>High score: <span className={highScoreClassName}>20</span></p>
+            <p>Score: <span className={spanClassName}>10</span></p>
+            <p>High score: <span className={spanClassName}>20</span></p>
         </div>
     );
 }
