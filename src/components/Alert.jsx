@@ -2,6 +2,7 @@ import ScoreDiv from "./ScoreDiv";
 
 export default function Alert({ 
     score,
+    highScore,
     onAlertClick
 }) {
     const handleOnClick = () => {
@@ -16,6 +17,7 @@ export default function Alert({
                     divClassName="end-game-score-container"
                     spanClassName="bold end-game-score"
                     score={score}
+                    highScore={highScore}
                 />
                 <button 
                     id="play-again-button" 

@@ -89,7 +89,7 @@ export default function App() {
         if (clickedUrl === previousRoundUrl) {
             console.log("Selected the same, you lose the round")
 
-            if (score === 0) {
+            if (highScore === 0) {
                 setHighScore(score);
             } else if (score > highScore) {
                 setHighScore(score);
@@ -124,6 +124,7 @@ export default function App() {
             {showAlert && (
                 <Alert 
                     score={score}
+                    highScore={highScore}
                     onAlertClick={handleAlertClick}
                 />
             )}
