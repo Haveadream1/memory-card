@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import CardContainer from "./containers/CardsContainer";
 import './App.css'
+import Alert from "./components/Alert";
 
 // TODO: refactor variables names
 // TODO : make the card spin or full blue after each click
@@ -101,6 +102,9 @@ export default function App() {
             <CardContainer 
                 imageUrls={imageUrls} 
                 onClick={handleClickButton} 
+            />
+            <Alert 
+                score={score}
             />
         </>
     );
