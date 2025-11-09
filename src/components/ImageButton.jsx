@@ -9,7 +9,7 @@ export default function ImageButton({
 
     return (
         <button className="card" onClick={handleOnClick}>
-            <img src={src} alt={`${alt} pokemon`} />
+            <img src={src} alt={`${alt} pokemon`} loading="lazy" />
         </button>
     );
 }
