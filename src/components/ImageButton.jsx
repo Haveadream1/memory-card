@@ -3,9 +3,8 @@ export default function ImageButton({
     buttonId,
     onClick,
 }) {
-    const handleOnClick = (e) => {
-        onClick();
-        console.log(e.target.querySelector("img").src)
+    const handleOnClick = () => {
+        onClick(src);
     }
 
     return (
