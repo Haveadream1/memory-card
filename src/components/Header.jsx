@@ -1,7 +1,8 @@
 import ScoreDiv from "./ScoreDiv";
 
 export default function Header({
-    score
+    score,
+    highScore
 }) {
     return (
         <header>
@@ -10,6 +11,7 @@ export default function Header({
                 divClassName="score-container" 
                 spanClassName="bold"
                 score={score}
+                highScore={highScore}
             />
         </header>
     );
