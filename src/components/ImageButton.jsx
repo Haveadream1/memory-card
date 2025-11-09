@@ -1,6 +1,6 @@
 export default function ImageButton({
     src,
-    buttonId,
+    alt,
     onClick,
 }) {
     const handleOnClick = () => {
@@ -9,11 +9,7 @@ export default function ImageButton({
 
     return (
         <button className="card" onClick={handleOnClick}>
-            <img src={src} alt={buttonId} />
+            <img src={src} alt={`${alt} pokemon`} />
         </button>
     );
 }
-// TODO: add an alt for the image
-// TODO: take off buttonId after
-
-{/* <p>{count}</p> */}
