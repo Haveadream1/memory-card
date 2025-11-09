@@ -5,6 +5,7 @@ export default function Alert({
     highScore,
     onAlertClick
 }) {
+    // Pass to the parent true when the alert is clicked
     const handleOnClick = () => {
         onAlertClick(true);
     }
