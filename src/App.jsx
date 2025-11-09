@@ -3,14 +3,18 @@ import Header from "./components/Header";
 import CardContainer from "./containers/CardsContainer";
 import './App.css'
 
+// TODO: refactor variables names
+// TODO : make the card spin or full blue after each click
 
 export default function App() {
     const [imageUrls, setImageUrls] = useState([]); // Init with an empty array
-    const [selectedImage, setSelectedImage] = useState();
     const [score, setScore] = useState(0);
     const [highScore, setHighScore] = useState(0);
-    const [pastRandomUrl, setPastRandomUrl] = useState(null);
 
+    const [previousRandomIndex, setPreviousRandomIndex] = useState(null);
+    const [previousRoundUrl, setPreviousRoundUrl] = useState(null);
+
+    // Fetch data with the value passed as parameter
     async function getImage(nameOrId) {
         try {
             const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${nameOrId}/`);
@@ -24,11 +28,11 @@ export default function App() {
         }
     }
 
-    const selectRandomUrl = (randomIndexArr) => {
+    const selectRandomIndex = (randomIndexArr) => {
         const selectedIndex = Math.floor(Math.random() * randomIndexArr.length);
-        const randomUrl = randomIndexArr[selectedIndex];
+        const randomIndex = randomIndexArr[selectedIndex];
 
-        return randomUrl;
+        return randomIndex;
     }
 
     const min = 1;
@@ -39,13 +43,15 @@ export default function App() {
             const randomIndexArr = [];
             const setIndex = new Set();
 
-            if (pastRandomUrl !== null) {
-                setIndex.add(pastRandomUrl);
-                randomIndexArr.push(pastRandomUrl);
+            // Add a random index of previous array to the new one
+            if (previousRandomIndex !== null) {
+                setIndex.add(previousRandomIndex);
+                randomIndexArr.push(previousRandomIndex);
 
-                console.log(pastRandomUrl);
+                console.log(previousRandomIndex);
             }
 
+            // Form the array with random index
             while (randomIndexArr.length < 4) { // TODO add a placeholder for 4 so we can easily modify difficulty
                 let randomIndex = Math.floor(Math.random() * (max - min) + min);
                 if (!setIndex.has(randomIndex)) { // Check if the index is unique
@@ -53,35 +59,52 @@ export default function App() {
                     randomIndexArr.push(randomIndex);
                 }
             }
-
             console.log(randomIndexArr);
 
-            const newPastUrl =  selectRandomUrl(randomIndexArr); // Update state value
-            setPastRandomUrl(newPastUrl);
-
-            const urls = await Promise.all( // Wait for all the images to be loaded
+            // Fetch the image with the index of the formed arr
+            const urls = await Promise.all(
                 randomIndexArr.map(index => getImage(index))
             );
-            setImageUrls(urls) // Set the state with the ulrs fetched
+
+            // Store the url in the state for later comparison
+            const previousUrl = urls[randomIndexArr.indexOf(previousRandomIndex)];
+            setPreviousRoundUrl(previousUrl);
+
+            // Select a random index from current arr, will server for next round
+            const newPreviousIndex =  selectRandomIndex(randomIndexArr);
+            setPreviousRandomIndex(newPreviousIndex);
+            
+            setImageUrls(urls) // Store urls fetched in the state
         }
         loadImages();
     },[score]); // [] to run only when the button is clicked
-    
-    // console.log(randomIndexArr)
 
-    const handleClickButton = () => {
+    // Compare the clicked url to the one that was added from previous round
+    const handleClickButton = (clickedUrl) => {
+        console.log(clickedUrl, previousRoundUrl);
+
+        if (clickedUrl === previousRoundUrl) {
+            console.log("Selected the same, you lose the round")
+            // Send end game alert
+        } 
+        // else {
+        //     setScore((score) => score + 1);
+        // }
         setScore((score) => score + 1);
     }
     
     return (
         <>
-            <Header score={score} />
-            <CardContainer imageUrls={imageUrls} onClick={handleClickButton} />
+            <Header 
+                score={score} 
+            />
+            <CardContainer 
+                imageUrls={imageUrls} 
+                onClick={handleClickButton} 
+            />
         </>
     );
 }
-
-// TODO : make the card spin or full blue after each click
 
             // while (randomIndexArr.length < 4) {
             //     const randomIndex = Math.floor(Math.random() * (max - min) + min);
