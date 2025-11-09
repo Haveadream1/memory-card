@@ -15,6 +15,8 @@ export default function App() {
     const [previousRandomIndex, setPreviousRandomIndex] = useState(null);
     const [previousRoundUrl, setPreviousRoundUrl] = useState(null);
 
+    const [showAlert, setShowAlert] = useState(false);
+
     // Fetch data with the value passed as parameter
     async function getImage(nameOrId) {
         try {
@@ -86,12 +88,13 @@ export default function App() {
 
         if (clickedUrl === previousRoundUrl) {
             console.log("Selected the same, you lose the round")
-            // Send end game alert
+            
+            setShowAlert(true);
         } 
-        // else {
-        //     setScore((score) => score + 1);
-        // }
-        setScore((score) => score + 1);
+        else {
+            setShowAlert(false);
+            setScore((score) => score + 1);
+        }
     }
     
     return (
@@ -103,9 +106,11 @@ export default function App() {
                 imageUrls={imageUrls} 
                 onClick={handleClickButton} 
             />
-            <Alert 
-                score={score}
-            />
+            {showAlert && (
+                <Alert 
+                    score={score}
+                />
+            )}
         </>
     );
 }
