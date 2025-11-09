@@ -1,16 +1,30 @@
 import ScoreDiv from "./ScoreDiv";
 
-export default function Alert({ score }) {
+export default function Alert({ 
+    score,
+    onAlertClick
+}) {
+    const handleOnClick = () => {
+        onAlertClick(true);
+    }
+
     return (
         <div className="alert-container">
             <section className="end-game-alert" aria-labelledby="alert-heading">
-                <h2 id="alert-heading">Congratulations</h2>
+                <h2 id="alert-heading">You Lost</h2>
                 <ScoreDiv 
                     divClassName="end-game-score-container"
                     spanClassName="bold end-game-score"
                     score={score}
                 />
-                <button id="play-again-button" type="button" aria-label="Play again">Play Again</button>
+                <button 
+                    id="play-again-button" 
+                    type="button" 
+                    aria-label="Play again" 
+                    onClick={handleOnClick}
+                >
+                    Play Again
+                </button>
             </section>
         </div>
     );
