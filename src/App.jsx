@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import CardContainer from "./containers/CardsContainer";
-import './App.css'
 import Alert from "./components/Alert";
 
-// TODO: refactor variables names
+import './App.css'
+
 // TODO : make the card spin or full blue after each click
 
 export default function App() {
-    const [imageUrls, setImageUrls] = useState([]); // Init with an empty array
+    const [imageUrls, setImageUrls] = useState([]);
+    const [names, setNames] = useState([]);
+
     const [score, setScore] = useState(0);
     const [highScore, setHighScore] = useState(0);
 
@@ -23,8 +25,11 @@ export default function App() {
             const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${nameOrId}/`);
             const data = await response.json();
 
-            const imageUrl = data.sprites.front_default; // Access the image with the JSON path
-            return imageUrl
+            // Return data with the JSON path
+            return {
+                imageUrl: data.sprites.front_default,
+                name: data.name
+            }
         } catch (error) {
             console.error("An error occurred while fetching data:", error);
             throw error;
@@ -40,61 +45,60 @@ export default function App() {
 
     const min = 1;
     const max = 20;
+    const totalImagesNb = 4;
 
     useEffect(() => {
         async function loadImages() {
             const randomIndexArr = [];
             const setIndex = new Set();
 
-            // Add a random index of previous array to the new one
+            // Add a random index of the previous array to the new one
             if (previousRandomIndex !== null) {
                 setIndex.add(previousRandomIndex);
                 randomIndexArr.push(previousRandomIndex);
-
-                console.log(previousRandomIndex);
             }
 
             // Form the array with random index
-            while (randomIndexArr.length < 4) { // TODO add a placeholder for 4 so we can easily modify difficulty
+            while (randomIndexArr.length < totalImagesNb) {
                 let randomIndex = Math.floor(Math.random() * (max - min) + min);
                 if (!setIndex.has(randomIndex)) { // Check if the index is unique
                     setIndex.add(randomIndex);
                     randomIndexArr.push(randomIndex);
                 }
             }
-            console.log(randomIndexArr);
 
-            // Fetch the image with the index of the formed arr
-            const urls = await Promise.all(
+            // Fetch the pokemon data with the index of the formed arr
+            const pokemonData = await Promise.all(
                 randomIndexArr.map(index => getImage(index))
             );
 
-            // Store the url in the state for later comparison
+            // Create arrays for pokenon urls and names
+            const urls = pokemonData.map(pokemon => pokemon.imageUrl);
+            const names = pokemonData.map(pokemon => pokemon.name);
+
+            // Store the URL in the state for later comparison
             const previousUrl = urls[randomIndexArr.indexOf(previousRandomIndex)];
             setPreviousRoundUrl(previousUrl);
 
-            // Select a random index from current arr, will server for next round
-            const newPreviousIndex =  selectRandomIndex(randomIndexArr);
+            // Select a random index from current arr, will serve for next round
+            const newPreviousIndex = selectRandomIndex(randomIndexArr);
             setPreviousRandomIndex(newPreviousIndex);
             
-            setImageUrls(urls) // Store urls fetched in the state
+            // Store pokemon urls and names in the state
+            setImageUrls(urls)
+            setNames(names);
         }
         loadImages();
-    },[score]); // [] to run only when the button is clicked
+    },[score]); // [] to run only when the score is updated
 
     // Compare the clicked url to the one that was added from previous round
     const handleCardClick = (clickedUrl) => {
-        console.log(clickedUrl, previousRoundUrl);
-
         if (clickedUrl === previousRoundUrl) {
-            console.log("Selected the same, you lose the round")
+            console.log("You selected the same image, you lose this round")
 
-            if (highScore === 0) {
-                setHighScore(score);
-            } else if (score > highScore) {
+            if (score > highScore) {
                 setHighScore(score);
             }
-
             setShowAlert(true);
         } 
         else {
@@ -103,14 +107,17 @@ export default function App() {
         }
     }
 
+    // When the alert button clicked, reset state values
     const handleAlertClick = (bool) => {
-        console.log(bool)
         if (bool) {
             setShowAlert(false);
-            setScore(0)
+            setScore(0);
+            setImageUrls([]);
+            setPreviousRandomIndex(null);
+            setPreviousRoundUrl(null);
         }
     }
-    
+
     return (
         <>
             <Header 
@@ -118,7 +125,8 @@ export default function App() {
                 highScore={highScore}
             />
             <CardContainer 
-                imageUrls={imageUrls} 
+                imageUrls={imageUrls}
+                names={names}
                 onCardClick={handleCardClick} 
             />
             {showAlert && (
@@ -131,14 +139,3 @@ export default function App() {
         </>
     );
 }
-
-// The alert should reset the score
-// hide the alert
-
-            // while (randomIndexArr.length < 4) {
-            //     const randomIndex = Math.floor(Math.random() * (max - min) + min);
-            //     if (!setIndex.has(randomIndex)) { // Check if the index is unique
-            //         setIndex.add(randomIndex);
-            //         randomIndexArr.push(randomIndex);
-            //     }
-            // }
