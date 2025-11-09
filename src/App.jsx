@@ -83,12 +83,18 @@ export default function App() {
     },[score]); // [] to run only when the button is clicked
 
     // Compare the clicked url to the one that was added from previous round
-    const handleClickButton = (clickedUrl) => {
+    const handleCardClick = (clickedUrl) => {
         console.log(clickedUrl, previousRoundUrl);
 
         if (clickedUrl === previousRoundUrl) {
             console.log("Selected the same, you lose the round")
-            
+
+            if (score === 0) {
+                setHighScore(score);
+            } else if (score > highScore) {
+                setHighScore(score);
+            }
+
             setShowAlert(true);
         } 
         else {
@@ -96,24 +102,37 @@ export default function App() {
             setScore((score) => score + 1);
         }
     }
+
+    const handleAlertClick = (bool) => {
+        console.log(bool)
+        if (bool) {
+            setShowAlert(false);
+            setScore(0)
+        }
+    }
     
     return (
         <>
             <Header 
                 score={score} 
+                highScore={highScore}
             />
             <CardContainer 
                 imageUrls={imageUrls} 
-                onClick={handleClickButton} 
+                onCardClick={handleCardClick} 
             />
             {showAlert && (
                 <Alert 
                     score={score}
+                    onAlertClick={handleAlertClick}
                 />
             )}
         </>
     );
 }
+
+// The alert should reset the score
+// hide the alert
 
             // while (randomIndexArr.length < 4) {
             //     const randomIndex = Math.floor(Math.random() * (max - min) + min);
